@@ -7,19 +7,19 @@ const TYPES      = ['Abgabe', 'To-Do', 'Lesen', 'Klausur']
 const PRIORITIES = ['hoch', 'mittel', 'niedrig']
 
 const SUBJECT_COLOR = {
-  Mathe:                    '#4f86f7',
-  'Praktische Informatik':  '#10b981',
-  'Theoretische Informatik':'#f59e0b',
-  GdI:                      '#ef4444',
+  Mathe:                     '#4f86f7',
+  'Praktische Informatik':   '#10b981',
+  'Theoretische Informatik': '#f59e0b',
+  GdI:                       '#ef4444',
 }
 const SUBJECT_SHORT = {
-  Mathe:                    'Mathe',
-  'Praktische Informatik':  'P.Inf',
-  'Theoretische Informatik':'T.Inf',
-  GdI:                      'GdI',
+  Mathe:                     'Mathe',
+  'Praktische Informatik':   'P.Inf',
+  'Theoretische Informatik': 'T.Inf',
+  GdI:                       'GdI',
 }
 const PRIORITY_COLOR = { hoch: '#ef4444', mittel: '#f59e0b', niedrig: '#10b981' }
-const PRIORITY_LABEL = { hoch: '↑ Hoch',  mittel: '→ Mittel', niedrig: '↓ Niedrig' }
+const PRIORITY_LABEL = { hoch: '↑ Hoch', mittel: '→ Mittel', niedrig: '↓ Niedrig' }
 const TYPE_ICON      = { Abgabe: '📤', 'To-Do': '✅', Lesen: '📖', Klausur: '📝' }
 
 const QUOTES = [
@@ -32,34 +32,37 @@ const QUOTES = [
   'Der beste Zeitpunkt ist jetzt.',
 ]
 
-// ── Helpers ────────────────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
-function daysUntil(dateStr) {
-  const t = new Date(); t.setHours(0,0,0,0)
-  const d = new Date(dateStr); d.setHours(0,0,0,0)
-  return Math.round((d - t) / 86_400_000)
+function daysUntil(deadline) {
+  const today = new Date(); today.setHours(0, 0, 0, 0)
+  const d = new Date(deadline); d.setHours(0, 0, 0, 0)
+  return Math.round((d - today) / 86_400_000)
 }
 
-function toDateStr(date) {
-  return date.toISOString().slice(0, 10)
+function deadlineLabel(deadline) {
+  const d = new Date(deadline)
+  const hasTime = deadline.includes('T')
+  return hasTime
+    ? d.toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+    : d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })
 }
+
+function toDateStr(date) { return date.toISOString().slice(0, 10) }
 
 function getWeekDays() {
   const today = new Date()
-  const mon = new Date(today)
+  const mon   = new Date(today)
   mon.setDate(today.getDate() - ((today.getDay() + 6) % 7))
   return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(mon)
-    d.setDate(mon.getDate() + i)
-    return d
+    const d = new Date(mon); d.setDate(mon.getDate() + i); return d
   })
 }
 
-function toEmbedUrl(url) {
+function toSpotifyUri(url) {
   if (!url) return ''
-  if (url.includes('/embed/')) return url
   const m = url.match(/open\.spotify\.com\/(playlist|album|track|episode|show)\/([a-zA-Z0-9]+)/)
-  return m ? `https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator&theme=0` : ''
+  return m ? `spotify:${m[1]}:${m[2]}` : ''
 }
 
 function sortTasks(arr) {
@@ -72,28 +75,7 @@ function sortTasks(arr) {
   })
 }
 
-// ── Progress Ring ──────────────────────────────────────────────────────────
-
-function Ring({ pct, color, size = 54, stroke = 4.5 }) {
-  const r    = (size - stroke) / 2
-  const circ = 2 * Math.PI * r
-  return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="ring-svg">
-      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth={stroke} />
-      <circle
-        cx={size/2} cy={size/2} r={r}
-        fill="none" stroke={color} strokeWidth={stroke}
-        strokeDasharray={circ}
-        strokeDashoffset={circ * (1 - (pct || 0))}
-        strokeLinecap="round"
-        transform={`rotate(-90 ${size/2} ${size/2})`}
-        style={{ transition: 'stroke-dashoffset .6s cubic-bezier(.4,0,.2,1)' }}
-      />
-    </svg>
-  )
-}
-
-// ── Week View ──────────────────────────────────────────────────────────────
+// ── Week View ─────────────────────────────────────────────────────────────────
 
 function WeekView({ tasks, filter, onToggle }) {
   const days     = getWeekDays()
@@ -106,7 +88,7 @@ function WeekView({ tasks, filter, onToggle }) {
         const isToday = ds === todayStr
         const cols    = sortTasks(
           tasks
-            .filter(t => t.deadline === ds)
+            .filter(t => t.deadline.slice(0, 10) === ds)
             .filter(t => filter === 'Alle' || t.subject === filter)
         )
         return (
@@ -126,7 +108,7 @@ function WeekView({ tasks, filter, onToggle }) {
                     className={`week-task${t.done ? ' done' : ''}`}
                     style={{ borderLeftColor: SUBJECT_COLOR[t.subject] }}
                     onClick={() => onToggle(t.id)}
-                    title={t.title}
+                    title={`${t.title} – ${deadlineLabel(t.deadline)}`}
                   >
                     {t.priority === 'hoch' && (
                       <span className="week-prio" style={{ background: PRIORITY_COLOR.hoch }} />
@@ -143,37 +125,43 @@ function WeekView({ tasks, filter, onToggle }) {
   )
 }
 
-// ── App ────────────────────────────────────────────────────────────────────
+// ── App ───────────────────────────────────────────────────────────────────────
 
 export default function App() {
   const [tasks, setTasks] = useState(() => {
     try { return JSON.parse(localStorage.getItem('uni-tasks') ?? '[]') }
     catch { return [] }
   })
-  const [filter, setFilter]   = useState('Alle')
-  const [search, setSearch]   = useState('')
-  const [view,   setView]     = useState('list')
-  const [form,   setForm]     = useState({
+  const [filter,   setFilter]   = useState('Alle')
+  const [search,   setSearch]   = useState('')
+  const [view,     setView]     = useState('list')
+  const [form,     setForm]     = useState({
     title: '', type: 'Abgabe', deadline: '', subject: 'Mathe', priority: 'mittel',
   })
+
+  // Spotify state
   const [spotifyUrl,       setSpotifyUrl]       = useState(() => localStorage.getItem('uni-spotify') ?? '')
   const [spotifyDraft,     setSpotifyDraft]     = useState('')
   const [spotifyEditing,   setSpotifyEditing]   = useState(false)
   const [spotifyCollapsed, setSpotifyCollapsed] = useState(false)
+  const [volume,           setVolume]           = useState(80)
+  const [muted,            setMuted]            = useState(false)
 
-  const prevRef = useRef(tasks)
+  const prevRef       = useRef(tasks)
+  const controllerRef = useRef(null)
+  const embedRef      = useRef(null)
 
-  // Persist
+  // Persist tasks + spotify URL
   useEffect(() => { localStorage.setItem('uni-tasks',   JSON.stringify(tasks)) }, [tasks])
   useEffect(() => { localStorage.setItem('uni-spotify', spotifyUrl)             }, [spotifyUrl])
 
-  // Seed from Moodle sync
+  // Seed new Moodle tasks from tasks.json
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}tasks.json`)
       .then(r => r.json())
       .then(fetched => {
         setTasks(prev => {
-          const ids = new Set(prev.map(t => t.id))
+          const ids  = new Set(prev.map(t => t.id))
           const next = fetched.filter(t => !ids.has(t.id))
           return next.length ? [...prev, ...next] : prev
         })
@@ -181,41 +169,76 @@ export default function App() {
       .catch(() => {})
   }, [])
 
-  // Confetti on subject completion
+  // Confetti on full subject completion
   useEffect(() => {
     SUBJECTS.forEach(s => {
       const curr = tasks.filter(t => t.subject === s)
       const prev = prevRef.current.filter(t => t.subject === s)
-      if (
-        curr.length > 0 && curr.every(t => t.done) &&
-        !(prev.length > 0 && prev.every(t => t.done))
-      ) {
-        confetti({
-          particleCount: 130,
-          spread: 80,
-          origin: { y: 0.45 },
-          colors: [SUBJECT_COLOR[s], '#ffffff', '#ffd700'],
-        })
+      if (curr.length > 0 && curr.every(t => t.done) &&
+          !(prev.length > 0 && prev.every(t => t.done))) {
+        confetti({ particleCount: 130, spread: 80, origin: { y: 0.45 },
+          colors: [SUBJECT_COLOR[s], '#ffffff', '#ffd700'] })
       }
     })
     prevRef.current = tasks
   }, [tasks])
 
+  // Spotify iFrame API init
+  useEffect(() => {
+    const uri = toSpotifyUri(spotifyUrl)
+    if (!uri) return
+
+    function createPlayer(IFrameAPI) {
+      if (!embedRef.current) return
+      embedRef.current.innerHTML = ''
+      IFrameAPI.createController(
+        embedRef.current,
+        { uri, width: '100%', height: '80' },
+        ctrl => {
+          controllerRef.current = ctrl
+          ctrl.setVolume(volume / 100)
+        }
+      )
+    }
+
+    if (window.SpotifyIframeApi) {
+      createPlayer(window.SpotifyIframeApi)
+      return
+    }
+
+    const prevReady = window.onSpotifyIframeApiReady
+    window.onSpotifyIframeApiReady = api => {
+      window.SpotifyIframeApi = api
+      if (prevReady) prevReady(api)
+      createPlayer(api)
+    }
+
+    if (!document.querySelector('script[src*="spotify.com/embed/iframe-api"]')) {
+      const s = document.createElement('script')
+      s.src = 'https://open.spotify.com/embed/iframe-api/v1'
+      document.body.appendChild(s)
+    }
+  }, [spotifyUrl])
+
+  // Sync volume/mute to controller
+  useEffect(() => {
+    controllerRef.current?.setVolume(muted ? 0 : volume / 100)
+  }, [volume, muted])
+
+  // Handlers
   function handleSubmit(e) {
     e.preventDefault()
     if (!form.title.trim() || !form.deadline) return
-    setTasks(prev => [
-      ...prev,
-      { id: crypto.randomUUID(), ...form, done: false, createdAt: Date.now() },
-    ])
+    setTasks(prev => [...prev, { id: crypto.randomUUID(), ...form, done: false, createdAt: Date.now() }])
     setForm(f => ({ ...f, title: '', deadline: '' }))
   }
   const toggle = id => setTasks(p => p.map(t => t.id === id ? { ...t, done: !t.done } : t))
   const remove = id => setTasks(p => p.filter(t => t.id !== id))
 
-  function saveSpotify() {
-    setSpotifyUrl(spotifyDraft.trim())
-    setSpotifyEditing(false)
+  function saveSpotify() { setSpotifyUrl(spotifyDraft.trim()); setSpotifyEditing(false) }
+
+  function toggleMute() {
+    setMuted(m => !m)
   }
 
   // Derived
@@ -224,45 +247,44 @@ export default function App() {
       .filter(t => filter === 'Alle' || t.subject === filter)
       .filter(t => !search || t.title.toLowerCase().includes(search.toLowerCase()))
   )
-
-  const today    = new Date()
-  const todayStr = today.toLocaleDateString('de-DE', { weekday:'long', day:'numeric', month:'long', year:'numeric' })
-  const quote    = QUOTES[today.getDay()]
-  const openCount = tasks.filter(t => !t.done).length
-
-  const embedUrl = toEmbedUrl(spotifyUrl)
-  const playerOpen = !!embedUrl && !spotifyCollapsed
+  const today      = new Date()
+  const dateLabel  = today.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+  const quote      = QUOTES[today.getDay()]
+  const openCount  = tasks.filter(t => !t.done).length
+  const hasSpotify = !!toSpotifyUri(spotifyUrl)
 
   return (
-    <div className={`app${playerOpen ? ' has-player' : ''}`}>
+    <div className={`app${hasSpotify && !spotifyCollapsed ? ' has-player' : ''}`}>
 
       {/* ── Header ── */}
       <header className="app-header">
         <div className="header-row">
-          <span className="header-date">{todayStr}</span>
+          <span className="header-date">{dateLabel}</span>
           <span className="header-badge">{openCount} offen</span>
         </div>
         <h1 className="header-title">Uni-Planer</h1>
         <p className="header-quote">„{quote}"</p>
       </header>
 
-      {/* ── Subject Progress ── */}
+      {/* ── Subject Progress Bars ── */}
       <section className="progress-section">
-        {SUBJECTS.map(s => {
+        {SUBJECTS.map((s, i) => {
           const all  = tasks.filter(t => t.subject === s)
           const done = all.filter(t => t.done).length
+          const pct  = all.length ? done / all.length : 0
           return (
-            <div key={s} className="progress-card glass">
-              <div className="ring-wrap">
-                <Ring pct={all.length ? done / all.length : 0} color={SUBJECT_COLOR[s]} />
-                <span className="ring-pct">
-                  {all.length ? Math.round(done / all.length * 100) : 0}%
-                </span>
+            <div key={s} className="progress-card glass" style={{ '--i': i }}>
+              <div className="pc-header">
+                <span className="pc-name" style={{ color: SUBJECT_COLOR[s] }}>{SUBJECT_SHORT[s]}</span>
+                <span className="pc-count">{done}/{all.length}</span>
               </div>
-              <span className="progress-subject" style={{ color: SUBJECT_COLOR[s] }}>
-                {SUBJECT_SHORT[s]}
-              </span>
-              <span className="progress-count">{done}/{all.length}</span>
+              <div className="pc-track">
+                <div
+                  className="pc-fill"
+                  style={{ width: `${pct * 100}%`, background: SUBJECT_COLOR[s] }}
+                />
+              </div>
+              <span className="pc-pct">{Math.round(pct * 100)}%</span>
             </div>
           )
         })}
@@ -275,13 +297,11 @@ export default function App() {
           <input
             className="search-input"
             type="text"
-            placeholder="Suchen..."
+            placeholder="Aufgaben suchen..."
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
-          {search && (
-            <button className="search-clear" onClick={() => setSearch('')}>×</button>
-          )}
+          {search && <button className="search-clear" onClick={() => setSearch('')}>×</button>}
         </div>
         <div className="view-toggle">
           <button className={view === 'list' ? 'active' : ''} onClick={() => setView('list')}>Liste</button>
@@ -308,7 +328,7 @@ export default function App() {
         })}
       </div>
 
-      {/* ── Form ── */}
+      {/* ── Add Form ── */}
       <form className="form-card glass" onSubmit={handleSubmit}>
         <input
           className="input full"
@@ -327,7 +347,7 @@ export default function App() {
             onChange={e => setForm(f => ({ ...f, type: e.target.value }))}>
             {TYPES.map(t => <option key={t}>{t}</option>)}
           </select>
-          <select className="select priority-select" value={form.priority}
+          <select className="select" value={form.priority}
             onChange={e => setForm(f => ({ ...f, priority: e.target.value }))}>
             {PRIORITIES.map(p => <option key={p} value={p}>{PRIORITY_LABEL[p]}</option>)}
           </select>
@@ -342,7 +362,7 @@ export default function App() {
         </div>
       </form>
 
-      {/* ── Content ── */}
+      {/* ── List / Week View ── */}
       {view === 'list' ? (
         <ul className="task-list">
           {visible.length === 0 && (
@@ -350,21 +370,23 @@ export default function App() {
               {search ? `Keine Treffer für „${search}"` : 'Keine Aufgaben — weiter so! 🎉'}
             </li>
           )}
-          {visible.map(task => {
+          {visible.map((task, i) => {
             const diff     = daysUntil(task.deadline)
             const overdue  = diff < 0 && !task.done
             const soon     = diff >= 0 && diff <= 2 && !task.done
             const priority = task.priority ?? 'mittel'
-            const dateLbl  = new Date(task.deadline).toLocaleDateString('de-DE',
-              { day: '2-digit', month: '2-digit', year: 'numeric' })
+            const dl       = deadlineLabel(task.deadline)
             const daysLbl  = task.done ? null
               : overdue  ? `${Math.abs(diff)}d überfällig`
               : diff === 0 ? 'Heute'
               : `${diff}d`
 
             return (
-              <li key={task.id}
-                className={`task-item glass${task.done ? ' done' : ''}${overdue ? ' overdue' : soon ? ' soon' : ''}`}>
+              <li
+                key={task.id}
+                style={{ '--i': i }}
+                className={`task-item glass${task.done ? ' done' : ''}${overdue ? ' overdue' : soon ? ' soon' : ''}`}
+              >
                 <div className="task-stripe" style={{ background: SUBJECT_COLOR[task.subject] }} />
                 <span
                   className="prio-dot"
@@ -383,8 +405,7 @@ export default function App() {
                     </span>
                     <span className="tag type-tag">{TYPE_ICON[task.type]} {task.type}</span>
                     <span className={`tag deadline-tag${overdue ? ' overdue' : soon ? ' soon' : ''}`}>
-                      {dateLbl}
-                      {daysLbl && <span className="days-label"> · {daysLbl}</span>}
+                      {dl}{daysLbl && <span className="days-label"> · {daysLbl}</span>}
                     </span>
                   </div>
                 </div>
@@ -397,48 +418,67 @@ export default function App() {
         <WeekView tasks={tasks} filter={filter} onToggle={toggle} />
       )}
 
-      {/* ── Spotify Bar ── */}
+      {/* ── Spotify Player ── */}
       <div className={`spotify-bar glass${spotifyCollapsed ? ' collapsed' : ''}`}>
         <div className="spotify-toprow">
           <span className="spotify-icon">♫</span>
+
           {spotifyEditing ? (
             <div className="spotify-edit">
               <input
                 className="spotify-input"
                 type="text"
-                placeholder="Spotify Playlist-URL einfügen..."
+                placeholder="Spotify-URL einfügen (Playlist, Album, Track)..."
                 value={spotifyDraft}
                 onChange={e => setSpotifyDraft(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && saveSpotify()}
                 autoFocus
               />
-              <button className="sp-btn sp-ok"  onClick={saveSpotify}>OK</button>
-              <button className="sp-btn sp-x"   onClick={() => setSpotifyEditing(false)}>✕</button>
+              <button className="sp-btn sp-ok" onClick={saveSpotify}>OK</button>
+              <button className="sp-btn sp-x"  onClick={() => setSpotifyEditing(false)}>✕</button>
             </div>
           ) : (
-            <button
-              className="spotify-label-btn"
-              onClick={() => { setSpotifyDraft(spotifyUrl); setSpotifyEditing(true) }}
-            >
-              {spotifyUrl ? 'Playlist wechseln' : '+ Spotify Playlist hinzufügen'}
-            </button>
-          )}
-          {embedUrl && !spotifyEditing && (
-            <button className="spotify-collapse" onClick={() => setSpotifyCollapsed(c => !c)}>
-              {spotifyCollapsed ? '▲' : '▼'}
-            </button>
+            <>
+              {hasSpotify && (
+                <div className="volume-wrap">
+                  <button
+                    className="mute-btn"
+                    onClick={toggleMute}
+                    title={muted ? 'Ton an' : 'Ton aus'}
+                  >
+                    {muted || volume === 0 ? '🔇' : volume < 40 ? '🔉' : '🔊'}
+                  </button>
+                  <input
+                    type="range"
+                    min="0" max="100"
+                    value={muted ? 0 : volume}
+                    onChange={e => { setMuted(false); setVolume(Number(e.target.value)) }}
+                    className="volume-slider"
+                    title={`Lautstärke: ${muted ? 0 : volume}%`}
+                  />
+                  <span className="volume-label">{muted ? 0 : volume}%</span>
+                </div>
+              )}
+              <button
+                className="spotify-label-btn"
+                onClick={() => { setSpotifyDraft(spotifyUrl); setSpotifyEditing(true) }}
+              >
+                {spotifyUrl ? 'wechseln' : '+ Playlist hinzufügen'}
+              </button>
+              {hasSpotify && (
+                <button className="spotify-collapse" onClick={() => setSpotifyCollapsed(c => !c)}>
+                  {spotifyCollapsed ? '▲' : '▼'}
+                </button>
+              )}
+            </>
           )}
         </div>
-        {embedUrl && !spotifyCollapsed && (
-          <iframe
-            src={embedUrl}
-            width="100%"
-            height="80"
-            frameBorder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-            title="Spotify"
-            className="spotify-iframe"
+
+        {/* Spotify iFrame API target – immer im DOM wenn URL gesetzt */}
+        {hasSpotify && (
+          <div
+            ref={embedRef}
+            className={`spotify-embed-target${spotifyCollapsed ? ' hidden' : ''}`}
           />
         )}
       </div>

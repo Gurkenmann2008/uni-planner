@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 
+// Moodle-Kategorie (Teilstring) → App-Fach
 const SUBJECT_MAP = {
-  'Mathematik für Informatik': 'Mathe',       // "Mathematik für Informatik 2 "
-  'IdS':                       'GdI',          // "IdS-SS26"
-  'Intec':                     'Praktische Informatik', // "Intec SoSe 26"
+  'Mathematik für Informatik': 'Mathe',              // "Mathematik für Informatik 2"
+  'IdS':                       'Theoretische Informatik', // "IdS-SS26" = Informatik der Systeme
+  'Intec':                     'GdI',                // "Intec SoSe 26" = Internettechnologien
 }
 
-const ABGABE_KEYWORDS = ['abgabe', 'assignment', 'submission', 'einreichung', 'is due', 'fällig']
+const ABGABE_KEYWORDS  = ['abgabe', 'assignment', 'submission', 'einreichung', 'is due', 'fällig']
 const KLAUSUR_KEYWORDS = ['klausur', 'exam', 'prüfung', 'test', 'quiz']
 const LESEN_KEYWORDS   = ['lesen', 'lektüre', 'reading']
 
@@ -34,21 +35,19 @@ async function main() {
   console.log(`tasks.json geschrieben (${merged.length} Aufgaben gesamt)`)
 }
 
-// ── iCal-Parser ─────────────────────────────────────────────────────────────
+// ── iCal-Parser ───────────────────────────────────────────────────────────────
 
 function parseICal(text) {
-  // Zeilenfortsetzungen auflösen (RFC 5545)
   const unfolded = text.replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '')
   return unfolded
     .split('BEGIN:VEVENT')
     .slice(1)
     .map(block => {
-      const end = block.indexOf('END:VEVENT')
+      const end   = block.indexOf('END:VEVENT')
       const props = {}
       for (const line of block.slice(0, end).split(/\r?\n/).filter(Boolean)) {
         const colon = line.indexOf(':')
         if (colon === -1) continue
-        // Key kann Parameter enthalten: DTSTART;VALUE=DATE → DTSTART
         const key = line.slice(0, colon).split(';')[0].toUpperCase()
         props[key] = line.slice(colon + 1).trim()
       }
@@ -56,7 +55,7 @@ function parseICal(text) {
     })
 }
 
-// ── Event → Task ─────────────────────────────────────────────────────────────
+// ── Event → Task ──────────────────────────────────────────────────────────────
 
 function toTask(event) {
   const summary    = event.SUMMARY    ?? ''
@@ -67,52 +66,58 @@ function toTask(event) {
   const deadline = parseDate(dtstart)
   if (!deadline) return null
 
-  // Fach aus CATEGORIES oder SUMMARY ermitteln
-  const searchText = `${categories} ${summary}`
-  const subject = detectSubject(searchText)
-  if (!subject) return null   // Kurs nicht im Mapping → überspringen
+  const subject = detectSubject(`${categories} ${summary}`)
+  if (!subject) return null
 
   return {
     id:       uid,
     title:    cleanTitle(summary),
     type:     detectType(summary),
     subject,
-    deadline,
+    deadline,          // ISO-String mit Zeit, z.B. "2026-05-13T10:00:00Z"
     done:     false,
     source:   'moodle',
   }
 }
 
 function detectSubject(text) {
-  for (const [keyword, mapped] of Object.entries(SUBJECT_MAP)) {
-    if (text.toLowerCase().includes(keyword.toLowerCase())) return mapped
+  for (const [kw, mapped] of Object.entries(SUBJECT_MAP)) {
+    if (text.toLowerCase().includes(kw.toLowerCase())) return mapped
   }
   return null
 }
 
 function detectType(summary) {
   const lower = summary.toLowerCase()
-  if (ABGABE_KEYWORDS.some(k => lower.includes(k)))  return 'Abgabe'
-  if (KLAUSUR_KEYWORDS.some(k => lower.includes(k))) return 'Klausur'
-  if (LESEN_KEYWORDS.some(k => lower.includes(k)))   return 'Lesen'
+  if (ABGABE_KEYWORDS.some(k  => lower.includes(k)))  return 'Abgabe'
+  if (KLAUSUR_KEYWORDS.some(k => lower.includes(k)))  return 'Klausur'
+  if (LESEN_KEYWORDS.some(k   => lower.includes(k)))  return 'Lesen'
   return 'To-Do'
 }
 
 function cleanTitle(summary) {
   return summary
     .replace(/^(abgabe|assignment due|is due|fällig|submission|einreichung):\s*/i, '')
-    .replace(/\s*ist fällig\.?\s*$/i, '')   // "Blatt 3 ist fällig." → "Blatt 3"
+    .replace(/\s*ist fällig\.?\s*$/i, '')
     .replace(/\s*is due\.?\s*$/i, '')
-    .replace(/\s*-\s*[^-]+$/, '')           // " - Kursname" am Ende entfernen
+    .replace(/\s*-\s*[^-]+$/, '')
     .trim()
 }
 
+// Parst YYYYMMDDTHHMMSSZ → "2026-05-13T10:00:00Z" (mit Uhrzeit)
+// oder YYYYMMDD           → "2026-05-13"           (nur Datum)
 function parseDate(dtstart) {
-  const m = dtstart.match(/^(\d{4})(\d{2})(\d{2})/)
-  return m ? `${m[1]}-${m[2]}-${m[3]}` : null
+  const withTime = dtstart.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z?)$/)
+  if (withTime) {
+    const [, y, mo, d, h, mi, s, z] = withTime
+    return `${y}-${mo}-${d}T${h}:${mi}:${s}${z}`
+  }
+  const dateOnly = dtstart.match(/^(\d{4})(\d{2})(\d{2})$/)
+  if (dateOnly) return `${dateOnly[1]}-${dateOnly[2]}-${dateOnly[3]}`
+  return null
 }
 
-// ── Merge: Done-Status erhalten, manuelle Tasks behalten ─────────────────────
+// ── Merge ─────────────────────────────────────────────────────────────────────
 
 function merge(existing, fresh) {
   const doneIds = new Set(
