@@ -1,0 +1,65 @@
+[
+  {
+    "id": "28373@moodle.zdv.uni-tuebingen.de",
+    "title": "Blatt 03",
+    "type": "Abgabe",
+    "subject": "GdI",
+    "deadline": "2026-05-10",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "28832@moodle.zdv.uni-tuebingen.de",
+    "title": "Checkpoint 02",
+    "type": "Abgabe",
+    "subject": "Praktische Informatik",
+    "deadline": "2026-05-10",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "28829@moodle.zdv.uni-tuebingen.de",
+    "title": "Übungsblatt 3",
+    "type": "Abgabe",
+    "subject": "Mathe",
+    "deadline": "2026-05-13",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "28386@moodle.zdv.uni-tuebingen.de",
+    "title": "Blatt 04",
+    "type": "Abgabe",
+    "subject": "GdI",
+    "deadline": "2026-05-17",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "28916@moodle.zdv.uni-tuebingen.de",
+    "title": "Checkpoint 03",
+    "type": "Abgabe",
+    "subject": "Praktische Informatik",
+    "deadline": "2026-05-17",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "28906@moodle.zdv.uni-tuebingen.de",
+    "title": "Übungsblatt 4",
+    "type": "Abgabe",
+    "subject": "Mathe",
+    "deadline": "2026-05-20",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "28391@moodle.zdv.uni-tuebingen.de",
+    "title": "Blatt 05",
+    "type": "Abgabe",
+    "subject": "GdI",
+    "deadline": "2026-05-31",
+    "done": false,
+    "source": "moodle"
+  }
+]
