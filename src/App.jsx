@@ -155,15 +155,25 @@ export default function App() {
   useEffect(() => { localStorage.setItem('uni-tasks',   JSON.stringify(tasks)) }, [tasks])
   useEffect(() => { localStorage.setItem('uni-spotify', spotifyUrl)             }, [spotifyUrl])
 
-  // Seed new Moodle tasks from tasks.json
+  // Seed + aktualisiere Moodle-Tasks aus tasks.json
+  // Vorhandene Moodle-Tasks werden mit frischen Daten überschrieben
+  // (Fach, Deadline, Titel) — nur done-Status bleibt erhalten.
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}tasks.json`)
       .then(r => r.json())
       .then(fetched => {
         setTasks(prev => {
-          const ids  = new Set(prev.map(t => t.id))
-          const next = fetched.filter(t => !ids.has(t.id))
-          return next.length ? [...prev, ...next] : prev
+          const freshById = Object.fromEntries(fetched.map(t => [t.id, t]))
+          // Manuelle Tasks unverändert lassen; Moodle-Tasks aktualisieren
+          const updated = prev.map(t =>
+            t.source === 'moodle' && freshById[t.id]
+              ? { ...freshById[t.id], done: t.done }
+              : t
+          )
+          // Wirklich neue Tasks (noch nicht in State) anhängen
+          const existingIds = new Set(prev.map(t => t.id))
+          const brandNew    = fetched.filter(t => !existingIds.has(t.id))
+          return brandNew.length ? [...updated, ...brandNew] : updated
         })
       })
       .catch(() => {})
