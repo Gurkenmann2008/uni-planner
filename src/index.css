@@ -1,43 +1,38 @@
 :root {
-  --bg: #0f1117;
-  --surface: #1a1d27;
-  --surface2: #22263a;
-  --border: #2e3354;
-  --text: #e8eaf6;
-  --text-muted: #6b7299;
-  --accent: #6c7cfc;
+  --bg:        #0f0f13;
+  --surface:   #1a1a24;
+  --surface2:  #21212e;
+  --surface3:  #282836;
+  --border:    rgba(255, 255, 255, 0.07);
+  --border-hi: rgba(255, 255, 255, 0.13);
+  --text:      #e8e8f2;
+  --text-muted:#6b6b86;
+  --text-dim:  #44445a;
+  --accent:    #7c6cf0;
+  --accent-lo: rgba(124, 108, 240, 0.18);
 
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'DM Sans', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: var(--text);
-  background: var(--bg);
+  background-color: var(--bg);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
   min-height: 100vh;
+  background:
+    radial-gradient(ellipse 60% 40% at 10% 0%,   rgba(124,108,240,.13) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 35% at 90% 100%,  rgba(16,185,129,.09) 0%, transparent 70%),
+    var(--bg);
 }
 
-#root {
-  min-height: 100vh;
-}
+#root { min-height: 100vh; }
 
-h1, h2, h3 {
-  margin: 0;
-}
-
-button {
-  font-family: inherit;
-}
-
-input, select {
-  font-family: inherit;
-}
+h1, h2, h3 { margin: 0; }
+button, input, select { font-family: inherit; }
+ul { list-style: none; padding: 0; margin: 0; }
