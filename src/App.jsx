@@ -46,6 +46,20 @@ export default function App() {
     localStorage.setItem('uni-tasks', JSON.stringify(tasks))
   }, [tasks])
 
+  // Neue Moodle-Aufgaben aus tasks.json beim Start einlesen
+  useEffect(() => {
+    fetch('/tasks.json')
+      .then(r => r.json())
+      .then(fetched => {
+        setTasks(prev => {
+          const existingIds = new Set(prev.map(t => t.id))
+          const newOnes = fetched.filter(t => !existingIds.has(t.id))
+          return newOnes.length ? [...prev, ...newOnes] : prev
+        })
+      })
+      .catch(() => {})
+  }, [])
+
   function handleSubmit(e) {
     e.preventDefault()
     if (!form.title.trim() || !form.deadline) return
