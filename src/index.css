@@ -1,32 +1,40 @@
 :root {
-  --bg:        #0f0f13;
-  --surface:   #1a1a24;
-  --surface2:  #21212e;
-  --surface3:  #282838;
-  --border:    rgba(255, 255, 255, 0.07);
-  --border-hi: rgba(255, 255, 255, 0.13);
-  --text:      #e8e8f2;
-  --text-muted:#6b6b86;
-  --text-dim:  #44445a;
-  --accent:    #7c6cf0;
-  --accent-lo: rgba(124, 108, 240, 0.18);
+  /* Backgrounds */
+  --bg:        #08080f;
+  --surface:   #111119;
+  --surface2:  #16161f;
+  --surface3:  #1c1c28;
+
+  /* Borders */
+  --border:    rgba(255,255,255,0.06);
+  --border-hi: rgba(255,255,255,0.11);
+
+  /* Text */
+  --text:      #eeeef5;
+  --text-muted:#8585a0;
+  --text-dim:  #3d3d55;
+
+  /* Accent — indigo */
+  --accent:    #818cf8;
+  --accent-lo: rgba(129,140,248,0.14);
+
+  /* Radius */
+  --r-sm: 7px;
+  --r-md: 11px;
+  --r-lg: 15px;
 
   font-family: 'DM Sans', system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 15px;
+  line-height: 1.55;
   color: var(--text);
-  background-color: var(--bg);
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--bg);  /* blobs in .anim-bg handle the gradients */
-}
+body { margin: 0; min-height: 100vh; }
 
 #root { min-height: 100vh; }
 

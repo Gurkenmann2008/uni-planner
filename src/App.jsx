@@ -252,6 +252,35 @@ export default function App() {
           </div>
           <h1 className="header-title">Uni-Planer</h1>
           <p className="header-quote">„{quote}"</p>
+          <div className="header-stats">
+            {(() => {
+              const todayTasks  = tasks.filter(t => !t.done && daysUntil(t.deadline) === 0)
+              const overdueTasks = tasks.filter(t => !t.done && daysUntil(t.deadline) < 0)
+              const weekTasks   = tasks.filter(t => !t.done && daysUntil(t.deadline) >= 0 && daysUntil(t.deadline) <= 7)
+              return (<>
+                <div className="stat-item">
+                  <span className="stat-val" style={{ color: overdueTasks.length > 0 ? '#f87171' : 'var(--text)' }}>
+                    {overdueTasks.length}
+                  </span>
+                  <span className="stat-lbl">Überfällig</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-val" style={{ color: todayTasks.length > 0 ? '#fbbf24' : 'var(--text)' }}>
+                    {todayTasks.length}
+                  </span>
+                  <span className="stat-lbl">Heute</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-val">{weekTasks.length}</span>
+                  <span className="stat-lbl">Diese Woche</span>
+                </div>
+                <div className="stat-item">
+                  <span className="stat-val" style={{ color: 'var(--accent)' }}>{doneCount}</span>
+                  <span className="stat-lbl">Erledigt</span>
+                </div>
+              </>)
+            })()}
+          </div>
         </header>
 
         {/* ── Subject Progress Bars ── */}

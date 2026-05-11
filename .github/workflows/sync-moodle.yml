@@ -32,6 +32,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Keine Änderungen."
           else
-            git commit -m "chore: sync Moodle tasks [skip ci]"
+            git commit -m "chore: sync Moodle tasks"
             git push
           fi
