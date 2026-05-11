@@ -169,7 +169,7 @@ export default function App() {
 
   // Seed from Moodle sync
   useEffect(() => {
-    fetch('/tasks.json')
+    fetch(`${import.meta.env.BASE_URL}tasks.json`)
       .then(r => r.json())
       .then(fetched => {
         setTasks(prev => {
