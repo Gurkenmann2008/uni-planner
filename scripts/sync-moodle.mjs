@@ -2,9 +2,9 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 
 const SUBJECT_MAP = {
-  'Lineare Algebra':        'Mathe',
-  'Informatik der Systeme': 'GdI',
-  'Internettechnologien':   'Praktische Informatik',
+  'Mathematik für Informatik': 'Mathe',       // "Mathematik für Informatik 2 "
+  'IdS':                       'GdI',          // "IdS-SS26"
+  'Intec':                     'Praktische Informatik', // "Intec SoSe 26"
 }
 
 const ABGABE_KEYWORDS = ['abgabe', 'assignment', 'submission', 'einreichung', 'is due', 'fällig']
@@ -101,7 +101,9 @@ function detectType(summary) {
 function cleanTitle(summary) {
   return summary
     .replace(/^(abgabe|assignment due|is due|fällig|submission|einreichung):\s*/i, '')
-    .replace(/\s*-\s*[^-]+$/, '')  // " - Kursname" am Ende entfernen
+    .replace(/\s*ist fällig\.?\s*$/i, '')   // "Blatt 3 ist fällig." → "Blatt 3"
+    .replace(/\s*is due\.?\s*$/i, '')
+    .replace(/\s*-\s*[^-]+$/, '')           // " - Kursname" am Ende entfernen
     .trim()
 }
 
