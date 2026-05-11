@@ -283,7 +283,11 @@ export default function App() {
           const done = all.filter(t => t.done).length
           const pct  = all.length ? done / all.length : 0
           return (
-            <div key={s} className="progress-card glass" style={{ '--i': i }}>
+            <div
+              key={s}
+              className="progress-card glass"
+              style={{ '--i': i, '--subject-color': SUBJECT_COLOR[s] }}
+            >
               <div className="pc-header">
                 <span className="pc-name" style={{ color: SUBJECT_COLOR[s] }}>{SUBJECT_SHORT[s]}</span>
                 <span className="pc-count">{done}/{all.length}</span>
@@ -294,7 +298,10 @@ export default function App() {
                   style={{ width: `${pct * 100}%`, background: SUBJECT_COLOR[s] }}
                 />
               </div>
-              <span className="pc-pct">{Math.round(pct * 100)}%</span>
+              <div className="pc-footer">
+                <span className="pc-pct">{Math.round(pct * 100)}%</span>
+                {all.length === 0 && <span className="pc-empty">Keine Aufgaben</span>}
+              </div>
             </div>
           )
         })}
