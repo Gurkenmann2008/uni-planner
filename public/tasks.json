@@ -1,14 +1,5 @@
 [
   {
-    "id": "pinf-sheet03",
-    "title": "Hausaufgabenblatt 03",
-    "type": "Abgabe",
-    "subject": "Praktische Informatik",
-    "deadline": "2026-05-15T21:59:00Z",
-    "done": false,
-    "source": "pinf"
-  },
-  {
     "id": "28829@moodle.zdv.uni-tuebingen.de",
     "title": "Übungsblatt 3",
     "type": "Abgabe",
@@ -52,5 +43,23 @@
     "deadline": "2026-05-31T20:00:00Z",
     "done": false,
     "source": "moodle"
+  },
+  {
+    "id": "pinf-sheet03",
+    "title": "Hausaufgabenblatt 03",
+    "type": "Abgabe",
+    "subject": "Praktische Informatik",
+    "deadline": "2026-05-15T21:59:00Z",
+    "done": true,
+    "source": "pinf"
+  },
+  {
+    "id": "pinf-sheet04",
+    "title": "Hausaufgabenblatt 04",
+    "type": "Abgabe",
+    "subject": "Praktische Informatik",
+    "deadline": "2026-05-22T21:59:00Z",
+    "done": false,
+    "source": "pinf"
   }
 ]
