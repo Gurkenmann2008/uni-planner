@@ -1,21 +1,21 @@
 [
   {
-    "id": "28386@moodle.zdv.uni-tuebingen.de",
-    "title": "Blatt 04",
+    "id": "pinf-sheet03",
+    "title": "Hausaufgabenblatt 03",
     "type": "Abgabe",
-    "subject": "Theoretische Informatik",
-    "deadline": "2026-05-17T20:00:00Z",
-    "done": false,
-    "source": "moodle"
+    "subject": "Praktische Informatik",
+    "deadline": "2026-05-15T21:59:00Z",
+    "done": true,
+    "source": "pinf"
   },
   {
-    "id": "28916@moodle.zdv.uni-tuebingen.de",
-    "title": "Checkpoint 03",
+    "id": "pinf-sheet04",
+    "title": "Hausaufgabenblatt 04",
     "type": "Abgabe",
-    "subject": "GdI",
-    "deadline": "2026-05-17T21:59:00Z",
+    "subject": "Praktische Informatik",
+    "deadline": "2026-05-22T21:59:00Z",
     "done": false,
-    "source": "moodle"
+    "source": "pinf"
   },
   {
     "id": "28906@moodle.zdv.uni-tuebingen.de",
@@ -61,23 +61,5 @@
     "deadline": "2026-06-07T20:00:00Z",
     "done": false,
     "source": "moodle"
-  },
-  {
-    "id": "pinf-sheet03",
-    "title": "Hausaufgabenblatt 03",
-    "type": "Abgabe",
-    "subject": "Praktische Informatik",
-    "deadline": "2026-05-15T21:59:00Z",
-    "done": true,
-    "source": "pinf"
-  },
-  {
-    "id": "pinf-sheet04",
-    "title": "Hausaufgabenblatt 04",
-    "type": "Abgabe",
-    "subject": "Praktische Informatik",
-    "deadline": "2026-05-22T21:59:00Z",
-    "done": false,
-    "source": "pinf"
   }
 ]
