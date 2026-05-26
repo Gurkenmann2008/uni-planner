@@ -27,15 +27,6 @@
     "source": "pinf"
   },
   {
-    "id": "28906@moodle.zdv.uni-tuebingen.de",
-    "title": "Übungsblatt 4",
-    "type": "Abgabe",
-    "subject": "Mathe",
-    "deadline": "2026-05-20T10:00:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
     "id": "29003@moodle.zdv.uni-tuebingen.de",
     "title": "Checkpoint 04",
     "type": "Abgabe",
