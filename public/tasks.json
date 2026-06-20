@@ -1,50 +1,5 @@
 [
   {
-    "id": "pinf-sheet03",
-    "title": "Hausaufgabenblatt 03",
-    "type": "Abgabe",
-    "subject": "Praktische Informatik",
-    "deadline": "2026-05-15T21:59:00Z",
-    "done": true,
-    "source": "pinf"
-  },
-  {
-    "id": "pinf-sheet04",
-    "title": "Hausaufgabenblatt 04",
-    "type": "Abgabe",
-    "subject": "Praktische Informatik",
-    "deadline": "2026-05-22T21:59:00Z",
-    "done": true,
-    "source": "pinf"
-  },
-  {
-    "id": "pinf-sheet05",
-    "title": "Hausaufgabenblatt 05",
-    "type": "Abgabe",
-    "subject": "Praktische Informatik",
-    "deadline": "2026-06-05T21:59:00Z",
-    "done": true,
-    "source": "pinf"
-  },
-  {
-    "id": "pinf-sheet07",
-    "title": "Hausaufgabenblatt 07",
-    "type": "Abgabe",
-    "subject": "Praktische Informatik",
-    "deadline": "2026-06-19T21:59:00Z",
-    "done": false,
-    "source": "pinf"
-  },
-  {
-    "id": "pinf-sheet08",
-    "title": "Hausaufgabenblatt 08",
-    "type": "Abgabe",
-    "subject": "Praktische Informatik",
-    "deadline": "2026-06-26T21:59:00Z",
-    "done": false,
-    "source": "pinf"
-  },
-  {
     "id": "29212@moodle.zdv.uni-tuebingen.de",
     "title": "Übungsblatt 7",
     "type": "Abgabe",
@@ -88,5 +43,50 @@
     "deadline": "2026-06-28T21:59:00Z",
     "done": false,
     "source": "moodle"
+  },
+  {
+    "id": "pinf-sheet03",
+    "title": "Hausaufgabenblatt 03",
+    "type": "Abgabe",
+    "subject": "Praktische Informatik",
+    "deadline": "2026-05-15T21:59:00Z",
+    "done": true,
+    "source": "pinf"
+  },
+  {
+    "id": "pinf-sheet04",
+    "title": "Hausaufgabenblatt 04",
+    "type": "Abgabe",
+    "subject": "Praktische Informatik",
+    "deadline": "2026-05-22T21:59:00Z",
+    "done": true,
+    "source": "pinf"
+  },
+  {
+    "id": "pinf-sheet05",
+    "title": "Hausaufgabenblatt 05",
+    "type": "Abgabe",
+    "subject": "Praktische Informatik",
+    "deadline": "2026-06-05T21:59:00Z",
+    "done": true,
+    "source": "pinf"
+  },
+  {
+    "id": "pinf-sheet07",
+    "title": "Hausaufgabenblatt 07",
+    "type": "Abgabe",
+    "subject": "Praktische Informatik",
+    "deadline": "2026-06-19T21:59:00Z",
+    "done": false,
+    "source": "pinf"
+  },
+  {
+    "id": "pinf-sheet08",
+    "title": "Hausaufgabenblatt 08",
+    "type": "Abgabe",
+    "subject": "Praktische Informatik",
+    "deadline": "2026-06-26T21:59:00Z",
+    "done": false,
+    "source": "pinf"
   }
 ]
