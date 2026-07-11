@@ -1,68 +1,5 @@
 [
   {
-    "id": "28397@moodle.zdv.uni-tuebingen.de",
-    "title": "Blatt 10",
-    "type": "Abgabe",
-    "subject": "Theoretische Informatik",
-    "deadline": "2026-07-05T20:00:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
-    "id": "29449@moodle.zdv.uni-tuebingen.de",
-    "title": "Checkpoint 09",
-    "type": "Abgabe",
-    "subject": "GdI",
-    "deadline": "2026-07-05T21:59:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
-    "id": "29557@moodle.zdv.uni-tuebingen.de",
-    "title": "Übungsblatt 10",
-    "type": "Abgabe",
-    "subject": "Mathe",
-    "deadline": "2026-07-08T10:00:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
-    "id": "28398@moodle.zdv.uni-tuebingen.de",
-    "title": "Blatt 11",
-    "type": "Abgabe",
-    "subject": "Theoretische Informatik",
-    "deadline": "2026-07-12T20:00:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
-    "id": "29450@moodle.zdv.uni-tuebingen.de",
-    "title": "Checkpoint 10",
-    "type": "Abgabe",
-    "subject": "GdI",
-    "deadline": "2026-07-12T21:59:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
-    "id": "29667@moodle.zdv.uni-tuebingen.de",
-    "title": "Übungsblatt 11",
-    "type": "Abgabe",
-    "subject": "Mathe",
-    "deadline": "2026-07-15T10:00:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
-    "id": "28399@moodle.zdv.uni-tuebingen.de",
-    "title": "Blatt 12",
-    "type": "Abgabe",
-    "subject": "Theoretische Informatik",
-    "deadline": "2026-07-19T20:00:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
     "id": "pinf-sheet03",
     "title": "Hausaufgabenblatt 03",
     "type": "Abgabe",
@@ -124,5 +61,50 @@
     "deadline": "2026-07-10T21:59:00Z",
     "done": false,
     "source": "pinf"
+  },
+  {
+    "id": "29557@moodle.zdv.uni-tuebingen.de",
+    "title": "Übungsblatt 10",
+    "type": "Abgabe",
+    "subject": "Mathe",
+    "deadline": "2026-07-08T10:00:00Z",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "28398@moodle.zdv.uni-tuebingen.de",
+    "title": "Blatt 11",
+    "type": "Abgabe",
+    "subject": "Theoretische Informatik",
+    "deadline": "2026-07-12T20:00:00Z",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "29450@moodle.zdv.uni-tuebingen.de",
+    "title": "Checkpoint 10",
+    "type": "Abgabe",
+    "subject": "GdI",
+    "deadline": "2026-07-12T21:59:00Z",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "29667@moodle.zdv.uni-tuebingen.de",
+    "title": "Übungsblatt 11",
+    "type": "Abgabe",
+    "subject": "Mathe",
+    "deadline": "2026-07-15T10:00:00Z",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "28399@moodle.zdv.uni-tuebingen.de",
+    "title": "Blatt 12",
+    "type": "Abgabe",
+    "subject": "Theoretische Informatik",
+    "deadline": "2026-07-19T20:00:00Z",
+    "done": false,
+    "source": "moodle"
   }
 ]
