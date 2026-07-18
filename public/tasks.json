@@ -1,5 +1,59 @@
 [
   {
+    "id": "29743@moodle.zdv.uni-tuebingen.de",
+    "title": "Anmeldung zur Hauptklausur opens",
+    "type": "Klausur",
+    "subject": "Theoretische Informatik",
+    "deadline": "2026-07-13T11:36:00Z",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "29740@moodle.zdv.uni-tuebingen.de",
+    "title": "Informatik der Systeme",
+    "type": "To-Do",
+    "subject": "Theoretische Informatik",
+    "deadline": "2026-07-13T13:00:00Z",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "29667@moodle.zdv.uni-tuebingen.de",
+    "title": "Übungsblatt 11",
+    "type": "Abgabe",
+    "subject": "Mathe",
+    "deadline": "2026-07-15T10:00:00Z",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "28399@moodle.zdv.uni-tuebingen.de",
+    "title": "Blatt 12",
+    "type": "Abgabe",
+    "subject": "Theoretische Informatik",
+    "deadline": "2026-07-19T20:00:00Z",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "29741@moodle.zdv.uni-tuebingen.de",
+    "title": "Informatik der Systeme",
+    "type": "To-Do",
+    "subject": "Theoretische Informatik",
+    "deadline": "2026-07-26T21:59:00Z",
+    "done": false,
+    "source": "moodle"
+  },
+  {
+    "id": "29744@moodle.zdv.uni-tuebingen.de",
+    "title": "Anmeldung zur Hauptklausur closes",
+    "type": "Klausur",
+    "subject": "Theoretische Informatik",
+    "deadline": "2026-07-26T21:59:00Z",
+    "done": false,
+    "source": "moodle"
+  },
+  {
     "id": "pinf-sheet03",
     "title": "Hausaufgabenblatt 03",
     "type": "Abgabe",
@@ -70,59 +124,5 @@
     "deadline": "2026-07-17T21:59:00Z",
     "done": false,
     "source": "pinf"
-  },
-  {
-    "id": "29743@moodle.zdv.uni-tuebingen.de",
-    "title": "Anmeldung zur Hauptklausur opens",
-    "type": "Klausur",
-    "subject": "Theoretische Informatik",
-    "deadline": "2026-07-13T11:36:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
-    "id": "29740@moodle.zdv.uni-tuebingen.de",
-    "title": "Informatik der Systeme",
-    "type": "To-Do",
-    "subject": "Theoretische Informatik",
-    "deadline": "2026-07-13T13:00:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
-    "id": "29667@moodle.zdv.uni-tuebingen.de",
-    "title": "Übungsblatt 11",
-    "type": "Abgabe",
-    "subject": "Mathe",
-    "deadline": "2026-07-15T10:00:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
-    "id": "28399@moodle.zdv.uni-tuebingen.de",
-    "title": "Blatt 12",
-    "type": "Abgabe",
-    "subject": "Theoretische Informatik",
-    "deadline": "2026-07-19T20:00:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
-    "id": "29741@moodle.zdv.uni-tuebingen.de",
-    "title": "Informatik der Systeme",
-    "type": "To-Do",
-    "subject": "Theoretische Informatik",
-    "deadline": "2026-07-26T21:59:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
-    "id": "29744@moodle.zdv.uni-tuebingen.de",
-    "title": "Anmeldung zur Hauptklausur closes",
-    "type": "Klausur",
-    "subject": "Theoretische Informatik",
-    "deadline": "2026-07-26T21:59:00Z",
-    "done": false,
-    "source": "moodle"
   }
 ]
