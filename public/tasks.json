@@ -1,14 +1,5 @@
 [
   {
-    "id": "32343@moodle.zdv.uni-tuebingen.de",
-    "title": "Anmeldung zur Nachklausur closes",
-    "type": "Klausur",
-    "subject": "Theoretische Informatik",
-    "deadline": "2026-10-04T21:59:00Z",
-    "done": false,
-    "source": "moodle"
-  },
-  {
     "id": "pinf-sheet03",
     "title": "Hausaufgabenblatt 03",
     "type": "Abgabe",
@@ -79,5 +70,14 @@
     "deadline": "2026-07-17T21:59:00Z",
     "done": false,
     "source": "pinf"
+  },
+  {
+    "id": "32343@moodle.zdv.uni-tuebingen.de",
+    "title": "Anmeldung zur Nachklausur closes",
+    "type": "Klausur",
+    "subject": "Theoretische Informatik",
+    "deadline": "2026-10-04T21:59:00Z",
+    "done": false,
+    "source": "moodle"
   }
 ]
